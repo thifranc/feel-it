@@ -6,13 +6,13 @@
 /*   By: thifranc <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/23 12:16:14 by thifranc          #+#    #+#             */
-/*   Updated: 2016/02/29 19:13:13 by thifranc         ###   ########.fr       */
+/*   Updated: 2016/03/06 16:09:43 by thifranc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_all.h"
 
-int		ft_translate(t_tri **tetri)
+int		ft_translate(t_tri *tetri)
 {
 	int		i;
 	int		size;
@@ -20,7 +20,7 @@ int		ft_translate(t_tri **tetri)
 	int		y_min;
 	t_tri	*cur;
 
-	cur = *tetri;
+	cur = tetri;
 	size = 0;
 	while (cur)
 	{
@@ -84,20 +84,19 @@ int		main(int ac, char **av)
 {
 	char	**map;
 	int		nb_tetri;
-	t_tri	**beg;
+	t_tri	*beg;
 	t_tri	*tmp;
 	int		len;
 
-	beg = NULL;
 	tmp = ft_create_elem();
-	beg = &tmp;
+	beg = tmp;
 	if (ac == 2 && (len = ft_wild_cases(av[1], tmp)) != 0)
 	{
 		close(len);
 		nb_tetri = ft_translate(beg);
 		len = ft_formula(nb_tetri);
 		map = ft_create_sqr(len);
-		ft_find_sqr(map, *beg, len);
+		ft_find_sqr(map, beg, len);
 	}
 	if (ac != 2)
 		write(1, "usage: ./fillit source_file (only one)\n", 39);

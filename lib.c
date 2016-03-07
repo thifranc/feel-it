@@ -6,14 +6,18 @@
 /*   By: thifranc <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/22 16:58:21 by thifranc          #+#    #+#             */
-/*   Updated: 2016/02/29 18:25:37 by thifranc         ###   ########.fr       */
+/*   Updated: 2016/03/07 11:44:01 by dgameiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_all.h"
 
-int		ft_map_error(void)
+int		ft_map_error(int fd, char *buf)
 {
+	free(buf);
+	buf = NULL;
+	if (fd != -1)
+		close(fd);
 	write(1, "error\n", 6);
 	return (0);
 }

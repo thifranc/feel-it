@@ -6,7 +6,7 @@
 /*   By: thifranc <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/22 15:06:46 by thifranc          #+#    #+#             */
-/*   Updated: 2016/03/02 14:14:59 by dgameiro         ###   ########.fr       */
+/*   Updated: 2016/03/07 11:44:00 by dgameiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ int		ft_hash_nb(char *str)
 	}
 	if (l_ct != 4 || h_ct != 4 || str[i - 1] != '\n')
 		return (0);
-	return (h_ct);
+	return (1);
 }
 
 int		ft_wild_cases(char *str, t_tri *tetri)
@@ -105,23 +105,23 @@ int		ft_wild_cases(char *str, t_tri *tetri)
 	char	*buf;
 
 	if (!(buf = (char*)malloc(sizeof(char) * (20))))
-		return (ft_map_error());
+		return (0);
 	if ((fd = open(str, O_RDONLY)) == -1)
-		return (ft_map_error());
+		return (ft_map_error(fd, buf));
 	red = read(fd, buf, 20);
 	while (red == 20)
 	{
-		if (ft_hash_nb(buf) != 4 || ft_get_tetri(buf, tetri) == 0)
-			return (ft_map_error());
+		if (ft_hash_nb(buf) == 0 || ft_get_tetri(buf, tetri) == 0)
+			return (ft_map_error(fd, buf));
 		red2 = read(fd, buf, 1);
 		if (buf[0] != '\n' && red2 == 1)
-			return (ft_map_error());
+			return (ft_map_error(fd, buf));
 		if ((red = read(fd, buf, 20)) == 20)
 			ft_tri_push_back(&tetri);
 		tetri = tetri->next;
 	}
+	if (red != 0 || red2 != 0 || !(*buf))
+		return (ft_map_error(fd, buf));
 	free(buf);
-	if (red == 0 && red2 == 0 && buf[0])
-		return (fd);
-	return (ft_map_error());
+	return (fd);
 }

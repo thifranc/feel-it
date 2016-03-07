@@ -6,7 +6,7 @@
 /*   By: thifranc <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/23 13:04:53 by thifranc          #+#    #+#             */
-/*   Updated: 2016/02/28 17:31:03 by thifranc         ###   ########.fr       */
+/*   Updated: 2016/03/07 09:21:00 by thifranc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	ft_is_valid(char **map, t_tri *tetri, int *cur, int len)
 			tetri = tetri->next;
 		else
 		{
-			cur = ft_get_cur(cur, tetri);
+			ft_get_cur(cur, tetri);
 			if (cur[1] > tetri->y_max)
 			{
 				if (tetri->letter == 'A')
@@ -33,7 +33,7 @@ void	ft_is_valid(char **map, t_tri *tetri, int *cur, int len)
 				}
 				else
 				{
-					tetri = ft_clear(map, tetri, cur);
+					tetri = ft_clear(map, tetri->prev, cur);
 				}
 			}
 		}
@@ -41,7 +41,7 @@ void	ft_is_valid(char **map, t_tri *tetri, int *cur, int len)
 	ft_print(map, len);
 }
 
-int		*ft_get_cur(int *cur, t_tri *tetri)
+void	ft_get_cur(int *cur, t_tri *tetri)
 {
 	cur[0]++;
 	if (cur[0] > tetri->x_max)
@@ -49,7 +49,6 @@ int		*ft_get_cur(int *cur, t_tri *tetri)
 		cur[1]++;
 		cur[0] = tetri->x[0];
 	}
-	return (cur);
 }
 
 t_tri	*ft_clear(char **map, t_tri *tetri, int *cur)
@@ -58,14 +57,14 @@ t_tri	*ft_clear(char **map, t_tri *tetri, int *cur)
 	int	x;
 
 	i = 0;
-	cur[0] = tetri->prev->pos[0];
-	cur[1] = tetri->prev->pos[1];
-	x = tetri->prev->x[0];
+	cur[0] = tetri->pos[0];
+	cur[1] = tetri->pos[1];
+	x = tetri->x[0];
 	map[cur[1]][cur[0]] = '.';
 	while (i++ < 3)
-		map[cur[1] + tetri->prev->y[i]][cur[0] + tetri->prev->x[i] - x] = '.';
-	ft_get_cur(cur, tetri->prev);
-	return (tetri->prev);
+		map[cur[1] + tetri->y[i]][cur[0] + tetri->x[i] - x] = '.';
+	ft_get_cur(cur, tetri);
+	return (tetri);
 }
 
 void	ft_actualise(char **map, t_tri *tetri, int *cur)
@@ -80,7 +79,8 @@ void	ft_actualise(char **map, t_tri *tetri, int *cur)
 	map[cur[1]][cur[0]] = c;
 	while (i++ < 3)
 		map[cur[1] + tetri->y[i]][cur[0] + tetri->x[i] - tetri->x[0]] = c;
-	cur[0] = 0;
+	if (tetri->next)
+		cur[0] = tetri->next->x[0];
 	cur[1] = 0;
 }
 

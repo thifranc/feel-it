@@ -6,7 +6,7 @@
 /*   By: thifranc <thifranc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/28 17:28:26 by thifranc          #+#    #+#             */
-/*   Updated: 2016/02/28 17:31:12 by thifranc         ###   ########.fr       */
+/*   Updated: 2016/03/06 16:12:46 by thifranc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ void	ft_print(char **map, int len)
 		write(1, map[i], len + 1);
 		i++;
 	}
+	free(map);
+	map = NULL;
 }
 
 void	ft_get_area(t_tri *tetri, int len)

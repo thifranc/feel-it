@@ -6,7 +6,7 @@
 /*   By: thifranc <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/22 16:47:30 by thifranc          #+#    #+#             */
-/*   Updated: 2016/03/02 14:13:41 by dgameiro         ###   ########.fr       */
+/*   Updated: 2016/03/07 11:42:17 by dgameiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,7 @@ typedef struct		s_list
 	struct s_list	*prev;
 }					t_tri;
 
-void				ft_prt(t_tri *lol);
-int					ft_translate(t_tri **tetri);
-int					ft_tri_size(t_tri *tetri);
+int					ft_translate(t_tri *tetri);
 char				**ft_create_sqr(int len);
 void				ft_actualise(char **map, t_tri *tetri, int *cur);
 int					ft_formula(int nb_tetri);
@@ -41,10 +39,10 @@ void				ft_print(char **map, int len);
 void				ft_get_area(t_tri *tetri, int len);
 void				ft_find_sqr(char **map, t_tri *beg, int len);
 void				ft_is_valid(char **map, t_tri *tetri, int *cur, int flag);
-int					*ft_get_cur(int *cur, t_tri *tetri);
+void				ft_get_cur(int *cur, t_tri *tetri);
 int					ft_bloc_test(char **map, t_tri *tetri, int *cur);
 t_tri				*ft_clear(char **map, t_tri *tetri, int *cur);
-int					ft_map_error(void);
+int					ft_map_error(int fd, char *buf);
 t_tri				*ft_create_elem(void);
 void				ft_tri_push_back(t_tri **begin_list);
 int					ft_min(int *tab);
